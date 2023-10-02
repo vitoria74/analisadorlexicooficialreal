@@ -23,7 +23,7 @@ public class AnalisadorLexico {
     }
 
     private boolean hasNextChar() {
-        return indiceConteudo < this.conteudo.length    ;
+        return indiceConteudo < this.conteudo.length;
     }
     
 
@@ -85,7 +85,7 @@ public class AnalisadorLexico {
         while (hasNextChar()) {
             char c = nextChar();
     
-            // RETIRAR ESPAÇOS E QUEBRAS DE LINHA
+            // REMOVER ESPAÇOS E QUEBRAS DE LINHA
             while (c == ' ' || c == '\t' || c == '\n' || c == '\r') {
                 if (!hasNextChar()) {
                     return new Token("FIM_DO_CODIGO", Token.TIPO_FIM_CODIGO);
@@ -110,13 +110,19 @@ public class AnalisadorLexico {
     
             // Verificar operadores simples ou compostos
             String possibleOperator = String.valueOf(c);
-            char next = hasNextChar() ? conteudo[indiceConteudo] : '\0';
+            char next = '\0';
+
+            if (hasNextChar()) {
+                next = conteudo[indiceConteudo];
+            }
+
             String possibleCompoundOperator = possibleOperator + next;
-    
+
             if (operadorComposto(possibleCompoundOperator) || operadorSimples(c)) {
-                nextChar(); 
+                nextChar();
                 return createOperatorToken(possibleCompoundOperator);
             }
+
     
             if (simboloEspecial(c)) return entersimboloEspecial(c);
             if (letra(c)) return enterIdentificador(c);
