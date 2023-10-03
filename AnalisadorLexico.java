@@ -31,15 +31,15 @@ public class AnalisadorLexico {
         this.indiceConteudo--;
     }
 
-    private boolean letra(char c) {
-        return ((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')) || Character.isLetter(c);
+    private boolean letra(char c) { //Define os valores 
+        return ((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')) || Character.isLetter(c) || (c == '_');
     }
 
-    private boolean digito(char c) {
+    private boolean digito(char c) { //Define os valores
         return (c >= '0') && (c <= '9');
     }
 
-    private boolean operadorSimples(char c) {
+    private boolean operadorSimples(char c) { //Define os valores
         char[] operadores = {'=', '+', '-', '*', '%', '/', '!', '>', '<'};
         for (char operador : operadores) {
             if (c == operador) {
@@ -49,7 +49,7 @@ public class AnalisadorLexico {
         return false;
     }
 
-    private boolean operadorComposto(String op) {
+    private boolean operadorComposto(String op) { //Define os valores
         String[] operadores = {"||", "&&", ">=", "<=", "!=", "=="};
         for (String operador : operadores) {
             if (op.equals(operador)) {
@@ -59,12 +59,12 @@ public class AnalisadorLexico {
         return false;
     }
 
-    private boolean simboloEspecial(char c) {
+    private boolean simboloEspecial(char c) { //Define os valores
         return c == ';' || c == ',' || c == ')' || c == '(' || c == '}' || c == '{' || c == '[' || c == ']';
     }
 
-    private boolean palavraReservada(String c) {
-        String[] reservadas = {"if", "int", "float", "char", "boolean", "void", "else", "for", "while", "scanf", "println", "main", "return"};
+    private boolean palavraReservada(String c) { //Define os valores
+        String[] reservadas = {"if", "int", "float", "char", "boolean", "void", "else", "for", "while", "scanf", "println", "main", "return", "public", "static", "print"};
         for (String reservada : reservadas) {
             if (c.equals(reservada)) {
                 return true;
@@ -73,7 +73,7 @@ public class AnalisadorLexico {
         return false;
     }
 
-    private Token createOperatorToken(String operator) {
+    private Token createOperatorToken(String operator) { //Identidica operador, se não, mensagem de erro
         if (operadorComposto(operator) || operadorSimples(operator.charAt(0))) {
             return enterOperador(operator);
         } else {
